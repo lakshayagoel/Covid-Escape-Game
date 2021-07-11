@@ -1,1 +1,1 @@
-# Covid-Fighter-Game
+# Covid-Escape-Game
