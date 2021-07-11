@@ -1,17 +1,30 @@
 function load_images(){
-    enemy_image=new Image;
+
+    
+    enemy_image=new Image; //creating a Image object
+    
     enemy_image.src="v1.png";
     
+    
     player_img=new Image;
-    player_img.src="superhero.png";
-
+    player_img.src="circimg.png";
+    
+    
+    
     gem_img=new Image;
-    gem_img.src="gem.png";
-       
+    gem_img.src="vacc.png";
+    
+    
+    
+    
+    
 }
 
-function init(){
 
+function init(){
+    
+    
+    //get our canvas object from html
     canvas=document.getElementById("mycanvas");
     console.log(canvas);
     W=700;
@@ -19,6 +32,9 @@ function init(){
     
     canvas.width=W;
     canvas.height=H;
+    
+    
+    //create a context (pen)
     pen=canvas.getContext('2d');
     console.log(pen);
     
@@ -73,17 +89,28 @@ function init(){
         w:60,
         h:60,
     }
-     canvas.addEventListener('mousedown',function(){ //pressing the mouse
+    
+    
+  
+    canvas.addEventListener('mousedown',function(){ //pressing the mouse
         console.log("Mouse pressed");
         player.moving=true; //changing the current state of player
     });
+    
+    
+    //to stop the player moving
      canvas.addEventListener('mouseup',function(){ //releasing the mouse
         console.log("Mouse released");
         player.moving=false; //changing the current state of player
     });
-  }
-  
-  function isOverlap(rect1,rect2){
+    
+
+    
+    
+    
+}
+
+function isOverlap(rect1,rect2){
     
     if(rect1.x<rect2.x+rect2.w &&
       rect1.x+rect1.w>rect2.x &&
@@ -98,27 +125,44 @@ function init(){
 }
 
 function draw(){
-   pen.clearRect(0,0,W,H);
+    
+     //clear the canvas area for old frame
+    pen.clearRect(0,0,W,H);
     
     pen.fillStyle="red";
-     //draw the player
-    pen.drawImage(player_img,player.x,player.y,player.h,player.w);
- 
-    //draw the gem
-    pen.drawImage(gem_img,gem.x,gem.y,gem.h,gem.w);
+    
+    
+    //draw the player
+    pen.drawImage(player_img,player.x,player.y+50,player.h+20,player.w+20);
+    
+    
+    
+    
+    //draw the vaccine
+    pen.drawImage(gem_img,gem.x,gem.y+50,gem.h+30,gem.w+30);
+    
+    
+   
     
     for(let i=0;i<enemy.length;i++){
         pen.drawImage(enemy_image,enemy[i].x,enemy[i].y,enemy[i].w,enemy[i].h);
         
         
     }
-    pen.fillStyle="white";
-    pen.fillText("Score "+player.health,10,10);
     
-  }
-  
+    //display the score
+    pen.fillStyle="black";
+    pen.font="30px Arial";
+    pen.fillText("Score "+player.health,10,40);
+    
+    
+    
+}
+
+
 function update(){
-  
+    
+    //if the state of player is moving
     if(player.moving==true){
         player.x+=player.speed;
         player.health+=20;
@@ -140,12 +184,12 @@ function update(){
     //check for collision b/w player and gem
     if(isOverlap(player,gem)){
         console.log("You won");
-        alert("You won");
+        alert("Congratulations! You have been successfully vaccinated against Corona.");
         game_over=true;
         return;
         
     }
-    
+  
     for(let i=0;i<enemy.length;i++){
         enemy[i].y+=enemy[i].speed;
         if(enemy[i].y>H-enemy[i].h || enemy[i].y<0){
@@ -154,6 +198,10 @@ function update(){
     }
     
 }
+
+
+
+
 function gameloop(){
     
     if(game_over==true){
@@ -164,7 +212,8 @@ function gameloop(){
     update();
     
     console.log("In gameloop");
-   
+    
+    
 }
 
 
@@ -172,5 +221,7 @@ load_images();
 init();
 var f=setInterval(gameloop,100);
 
-    
-  
+
+
+
+
